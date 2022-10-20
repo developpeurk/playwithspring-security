@@ -2,6 +2,7 @@ package com.example.demospringsecurity1.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import static com.example.demospringsecurity1.security.ApplicationUserPermission.COURSE_WRITE;
 import static com.example.demospringsecurity1.security.ApplicationUserRole.*;
 
 @Configuration
@@ -27,8 +29,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*")
-                .permitAll()
+                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+                .antMatchers("/api/**").hasRole(STUDENT.name())
+                .antMatchers(HttpMethod.DELETE, "/management/v1/**").hasAuthority(COURSE_WRITE.name())
+                .antMatchers(HttpMethod.POST, "/management/v1/**").hasAuthority(COURSE_WRITE.name())
+                .antMatchers(HttpMethod.PUT, "/management/v1/**").hasAuthority(COURSE_WRITE.name())
+                .antMatchers(HttpMethod.GET"/management/v1/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())
                 .anyRequest()
                 .authenticated()
                 .and()
