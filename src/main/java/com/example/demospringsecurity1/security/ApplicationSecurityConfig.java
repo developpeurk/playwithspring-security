@@ -34,7 +34,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/management/v1/**").hasAuthority(COURSE_WRITE.name())
                 .antMatchers(HttpMethod.POST, "/management/v1/**").hasAuthority(COURSE_WRITE.name())
                 .antMatchers(HttpMethod.PUT, "/management/v1/**").hasAuthority(COURSE_WRITE.name())
-                .antMatchers(HttpMethod.GET"/management/v1/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())
+                .antMatchers(HttpMethod.GET,"/management/v1/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -48,19 +48,22 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails annasmithUser = User.builder()
                 .username("annasmith")
                 .password(passwordEncoder.encode("password"))
-                .roles(STUDENT.name())  // ROLE_STUDENT
+              //  .roles(STUDENT.name())  // ROLE_STUDENT
+                .authorities(STUDENT.getSimpleGrantedAuthorities())
                 .build();
 
         UserDetails lindaUser = User.builder()
                 .username("linda")
                 .password(passwordEncoder.encode("password123"))
-                .roles(ADMIN.name()) // ROLE_ADMIN
+              //  .roles(ADMIN.name()) // ROLE_ADMIN
+                .authorities(ADMIN.getSimpleGrantedAuthorities())
                 .build();
 
         UserDetails tomUser = User.builder()
                 .username("tom")
                 .password(passwordEncoder.encode("password123"))
-                .roles(ADMINTRAINEE.name()) // // ROLE_ADMINTRAINEE
+                //.roles(ADMINTRAINEE.name()) // // ROLE_ADMINTRAINEE
+                .authorities(ADMINTRAINEE.getSimpleGrantedAuthorities())
                 .build();
         return new InMemoryUserDetailsManager(annasmithUser, lindaUser, tomUser);
     }
