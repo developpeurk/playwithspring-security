@@ -40,7 +40,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll();
+                .loginPage("/login").permitAll()
+                .defaultSuccessUrl("/courses", true);
     }
 
     @Override
@@ -50,14 +51,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails annasmithUser = User.builder()
                 .username("annasmith")
                 .password(passwordEncoder.encode("password"))
-              //  .roles(STUDENT.name())  // ROLE_STUDENT
                 .authorities(STUDENT.getSimpleGrantedAuthorities())
                 .build();
 
         UserDetails lindaUser = User.builder()
                 .username("linda")
                 .password(passwordEncoder.encode("password123"))
-              //  .roles(ADMIN.name()) // ROLE_ADMIN
                 .authorities(ADMIN.getSimpleGrantedAuthorities())
                 .build();
 
