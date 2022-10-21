@@ -1,6 +1,7 @@
 package com.example.demospringsecurity1.auth;
 
 import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -10,12 +11,10 @@ import java.util.Optional;
 import static com.example.demospringsecurity1.security.ApplicationUserRole.*;
 
 @Repository("fake")
+@AllArgsConstructor
 public class FakeApplicationUserDaoService implements ApplicationUserDao{
     private final PasswordEncoder passwordEncoder;
 
-    public FakeApplicationUserDaoService(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public Optional<ApplicationUser> selectApplicationUserByUserName(String username) {

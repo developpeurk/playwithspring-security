@@ -1,5 +1,10 @@
 package com.example.demospringsecurity1.security;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum ApplicationUserPermission {
     STUDENT_READ("student:read"),
     STUDENT_WRITE("student:write"),
@@ -8,11 +13,5 @@ public enum ApplicationUserPermission {
 
     private final String permission;
 
-    ApplicationUserPermission(String permission) {
-        this.permission = permission;
-    }
 
-    public String getPermission() {
-        return permission;
-    }
 }
